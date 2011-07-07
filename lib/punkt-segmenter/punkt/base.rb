@@ -41,7 +41,7 @@ module Punkt
         elsif aug_token.is_ellipsis?
           aug_token.ellipsis = true
         elsif aug_token.ends_with_period? && !tok.end_with?("..")
-          tok_low = UnicodeUtils.downcase(tok.chop)
+          tok_low = Unicode.downcase(tok.chop)
           if @parameters.abbreviation_types.include?(tok_low) || @parameters.abbreviation_types.include?(tok_low.split("-")[-1])
             aug_token.abbr = true
           else

@@ -9,7 +9,7 @@ module Punkt
       valid_options = [:paragraph_start, :line_start, :sentence_break, :abbr, :ellipsis]
       
       @token        = token
-      @type         = UnicodeUtils.downcase(token).gsub(/^-?[\.,]?\d[\d,\.-]*\.?$/, '##number##') # numeric
+      @type         = Unicode.downcase(token).gsub(/^-?[\.,]?\d[\d,\.-]*\.?$/, '##number##') # numeric
       @period_final = token.end_with?('.')
       
       valid_options.each do |item|
@@ -27,13 +27,15 @@ module Punkt
     def type_without_sentence_period
       @sentence_break ? type_without_period : @type
     end
-    
+
+    UPPER_MATCH = Oniguruma::ORegexp.new('\A[[:upper:]]', '', 'utf8')
     def first_upper?
-      UnicodeUtils.uppercase_char?(@token[0])
+      UPPER_MATCH.match @token
     end
-    
+
+    LOWER_MATCH = Oniguruma::ORegexp.new('\A[[:lower:]]', '', 'utf8')
     def first_lower?
-      UnicodeUtils.lowercase_char?(@token[0])
+      LOWER_MATCH.match @token
     end
     
     def first_case
